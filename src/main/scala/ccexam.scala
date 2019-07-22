@@ -54,12 +54,27 @@ object ccexam {
       session.udf.register("firstTime", (ord: Int) => if (ord == 0) 1 else 0)
 
 
+      import session.implicits._
       val deptAndOrderCount = session.sql("select department_id, count(reordered) orderCount, sum(firstTime(reordered))  FirstTimeOrder from DeptReorderTable  group by department_id ")
-      deptAndOrderCount.rdd
+      /*val reportDS = deptAndOrderCount
         .map { case Row(deptid: Int, totalOrder: Long, firsttimeOrder: Long) => (deptid, totalOrder, firsttimeOrder, "%03.2f".format(firsttimeOrder.toDouble / totalOrder.toDouble)) }
-        .sortBy(_._1)
-        .saveAsTextFile("/Users/kjayakalimuthu/BigdataTrunk/CodeChallenge/product_dept.csv")
-      //.write.csv("/Users/kjayakalimuthu/BigdataTrunk/CodeChallenge/prod_dept.csv")
+        .sort("_1")
+        .repartition(1)
+
+      reportDS.write.csv("/Users/kjayakalimuthu/BigdataTrunk/CodeChallenge/report.csv")*/
+
+      deptAndOrderCount
+          .repartition(1)
+          .rdd
+          .map { case Row(deptid: Int, totalOrder: Long, firsttimeOrder: Long) => (deptid, totalOrder, firsttimeOrder, "%03.2f".format(firsttimeOrder.toDouble / totalOrder.toDouble)) }
+          .sortBy(_._1)
+          .map(r => r._1 + "  " + r._2 + "  " + r._3 + "  " + r._4)
+          .saveAsTextFile("/Users/kjayakalimuthu/BigdataTrunk/CodeChallenge/report.csv")
+
+      session.stop()
+
+      //  .sortBy(_._1)
+      // .saveAsTextFile("/Users/kjayakalimuthu/BigdataTrunk/CodeChallenge/report.csv")
       //.take(30).foreach(println)
 
 
