@@ -58,7 +58,7 @@ object ccexam {
       deptAndOrderCount.rdd
         .map { case Row(deptid: Int, totalOrder: Long, firsttimeOrder: Long) => (deptid, totalOrder, firsttimeOrder, "%03.2f".format(firsttimeOrder.toDouble / totalOrder.toDouble)) }
         .sortBy(_._1)
-        .saveAsTextFile("/Users/kjayakalimuthu/BigdataTrunk/CodeChallenge/prod_dept.csv")
+        .saveAsTextFile("/Users/kjayakalimuthu/BigdataTrunk/CodeChallenge/product_dept.csv")
       //.write.csv("/Users/kjayakalimuthu/BigdataTrunk/CodeChallenge/prod_dept.csv")
       //.take(30).foreach(println)
 
