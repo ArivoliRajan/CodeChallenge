@@ -6,8 +6,6 @@ import org.apache.spark.sql.SparkSession
 object ccexam {
 
 
-  object CodeChallenge {
-
     def main(args: Array[String]): Unit = {
 
       val session = SparkSession.builder()
@@ -66,8 +64,5 @@ object ccexam {
 
 
     }
-
-
-  }
 
 }
