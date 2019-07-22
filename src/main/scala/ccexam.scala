@@ -15,13 +15,12 @@ object ccexam {
       session.sparkContext.setLogLevel("INFO")
 
       GeroceryOrders(session)
-      val sc = session.sparkContext
 
     }
 
     def GeroceryOrders(session: SparkSession) = {
-      // val ordersPath = "/Users/kjayakalimuthu/BigdataTrunk/CodeChallenge/order_products.csv"
 
+      // val ordersPath = "/Users/kjayakalimuthu/BigdataTrunk/CodeChallenge/order_products.csv"
       val ordersPath = "/Users/kjayakalimuthu/BigdataTrunk/CodeChallenge/instacart_2017_05_01/order_products__prior.csv"
       val orders_df = session.read
         .format("csv")
@@ -35,7 +34,6 @@ object ccexam {
 
 
       //val productsPath = "/Users/kjayakalimuthu/BigdataTrunk/CodeChallenge/products.csv"
-
       val productsPath = "/Users/kjayakalimuthu/BigdataTrunk/CodeChallenge/instacart_2017_05_01/products1.csv"
       val products_df = session.read
         .format("csv")
@@ -43,18 +41,20 @@ object ccexam {
         .option("inferSchema", true)
         .load(productsPath)
         .select("product_id", "department_id")
-      // products_df.show(90000000)
+      // products_df.show(90)
       //  products_df.write.csv("/Users/kjayakalimuthu/BigdataTrunk/CodeChallenge/prod_dept.csv")
 
+      //Join Orders and Products to retrieve department and Reordered columns
       val deptReordered3 = orders_df.join(products_df, orders_df("product_id") === products_df("product_id"))
         .select("department_id", "reordered")
 
       deptReordered3.createOrReplaceTempView("DeptReorderTable")
-      //.show(90)
 
+      //Create an UDF to calculate the firstTime orders
       session.udf.register("firstTime", (ord: Int) => if (ord == 0) 1 else 0)
+
+
       val deptAndOrderCount = session.sql("select department_id, count(reordered) orderCount, sum(firstTime(reordered))  FirstTimeOrder from DeptReorderTable  group by department_id ")
-      deptAndOrderCount.printSchema()
       deptAndOrderCount.rdd
         .map { case Row(deptid: Int, totalOrder: Long, firsttimeOrder: Long) => (deptid, totalOrder, firsttimeOrder, "%03.2f".format(firsttimeOrder.toDouble / totalOrder.toDouble)) }
         .sortBy(_._1)
