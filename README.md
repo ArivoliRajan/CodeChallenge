@@ -31,7 +31,6 @@ order_products__prior.csv is used as it is as original file, no changes on this 
 
 
 Here is the output of Test1
-
 3  2  1  0.50
 4  2  0  0.00
 12  1  0  0.00
