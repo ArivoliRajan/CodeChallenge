@@ -1,15 +1,15 @@
-Solution is implemented using Spark and Scala.
-Used Spark 2.3.3
-Scala version 2.11.12
-SBT version 0.13
+Solution is implemented using Spark and Scala.\
+Used Spark 2.3.3\
+Scala version 2.11.12\
+SBT version 0.13\
 
-Here the output 
+Here the output \
 use products1.csv from my repo as I replaced the comma and quotes as single space in column 'product_name', 
-order_products__prior.csv is used as it is as original file, no changes on this file
+order_products__prior.csv is used as it is as original file, no changes on this file\
 
-1  2236432  1024542  0.46
-2  36291  21485  0.59
-3  1176787  437599  0.37
+1  2236432  1024542  0.46\
+2  36291  21485  0.59\
+3  1176787  437599  0.37\
 4  9479291  3318581  0.35
 5  153696  66101  0.43
 6  269253  169837  0.63
