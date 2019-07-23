@@ -5,7 +5,7 @@ SBT version 0.13
 
 Here the output \
 use products1.csv from my repo as I replaced the comma and quotes as single space in column 'product_name', 
-order_products__prior.csv is used as it is as original file, no changes on this file\
+order_products__prior.csv is used as it is as original file, no changes on this file
 
 1  2236432  1024542  0.46\
 2  36291  21485  0.59\
