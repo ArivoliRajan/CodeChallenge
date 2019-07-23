@@ -38,3 +38,5 @@ Here is the output of Test1\
 16  2  0  0.00
 
 There is no output for Test2 and Test3 as they are negative usecases
+
+For ScalaTest the input file names and out file names are hard coded in the code, please delete the output files of unit tests before running the tests.
